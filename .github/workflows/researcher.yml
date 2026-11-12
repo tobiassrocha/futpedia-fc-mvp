@@ -1,0 +1,34 @@
+name: Historical research (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Pauta histórica (10–160 caracteres)'
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Unit tests
+        run: node --experimental-strip-types --test agents/researcher-core.test.ts
+      - name: Research with OpenAI
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-5.4-mini
+          TOPIC: ${{ inputs.topic }}
+        run: node --experimental-strip-types agents/researcher.ts
+      - name: Upload dossier
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: historical-dossier
+          path: research-output/
+          retention-days: 14

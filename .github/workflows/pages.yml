@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate researcher contracts
+        run: node --experimental-strip-types --test agents/researcher-core.test.ts
       - run: npm install --no-audit --no-fund
       - run: npm run build
       - name: Upload site
