@@ -1,4 +1,29 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/site';
+import '../../styles/article.css';
+
+const articles = (await getCollection('articles'))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 ---
-<BaseLayout title="Histórias | Futpedia FC"><section class="container inner-page"><p class="eyebrow">ACERVO HISTÓRICO</p><h1>Histórias do futebol gaúcho</h1><p>Reportagens sobre clubes, esquadrões históricos, personagens e jogos inesquecíveis. Nosso acervo está em construção.</p></section></BaseLayout>
+<BaseLayout title="Histórias | Futpedia FC" description="Explore o acervo de histórias, clubes, esquadrões e personagens do futebol gaúcho.">
+  <section class="container collection-page">
+    <p class="eyebrow">ACERVO HISTÓRICO</p>
+    <h1>Histórias do futebol gaúcho</h1>
+    <p class="collection-intro">Reportagens, grandes campanhas, estádios e personagens. Nosso acervo cresce no ritmo das boas histórias.</p>
+    <div class="collection-grid">
+      {articles.map((article) => (
+        <a class="collection-card" href={url('historias/' + article.id + '/')}>
+          <div class="collection-card-art" aria-hidden="true"><span>FUTPEDIA FC</span></div>
+          <div class="collection-card-content">
+            <span class="collection-label">{article.data.eyebrow}</span>
+            <h2>{article.data.title}</h2>
+            <p>{article.data.description}</p>
+            <span class="collection-meta">{article.data.readingMinutes} min de leitura{article.data.demo ? ' · Demonstração' : ''}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

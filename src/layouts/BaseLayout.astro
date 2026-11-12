@@ -1,7 +1,13 @@
 ---
 import '../styles/global.css';
 import { url } from '../lib/site';
-const {title = 'Futpedia FC | O portal do futebol gaúcho', description = 'Histórias, clubes, competições e estádios do futebol gaúcho.'} = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  type?: 'website' | 'article';
+}
+const {title = 'Futpedia FC | O portal do futebol gaúcho', description = 'Histórias, clubes, competições e estádios do futebol gaúcho.', canonical = Astro.url.toString(), type = 'website'} = Astro.props;
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -10,6 +16,14 @@ const {title = 'Futpedia FC | O portal do futebol gaúcho', description = 'Hist�
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content={description} />
   <meta name="theme-color" content="#063923" />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Futpedia FC" />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary" />
   <title>{title}</title>
 </head>
 <body>

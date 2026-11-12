@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 import FeatureCard from '../components/FeatureCard.astro';
 import {stories, url} from '../lib/site';
+const latestArticles = (await getCollection('articles')).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0,3);
 ---
 <BaseLayout>
   <div class="container homepage">
@@ -11,7 +13,15 @@ import {stories, url} from '../lib/site';
       <div class="lead-side"><FeatureCard {...stories[1]} /><FeatureCard {...stories[2]} /></div>
       <aside class="latest box">
         <div class="section-heading"><h2>Últimas publicações</h2></div>
-        <p class="muted">Estamos preparando as primeiras reportagens sobre o futebol gaúcho.</p>
+        <div class="home-latest-list">
+          {latestArticles.map((article) => (
+            <a href={url('historias/' + article.id + '/')} style="display:block;padding:12px 0;border-bottom:1px solid #e6ece7">
+              <small style="color:#087a42;font-weight:800">{article.data.eyebrow}</small>
+              <strong style="display:block;margin-top:6px;line-height:1.3">{article.data.title}</strong>
+              <small style="color:#748177">{article.data.readingMinutes} min de leitura{article.data.demo ? ' · Demonstração' : ''}</small>
+            </a>
+          ))}
+        </div>
         <a class="text-link" href={url('historias/')}>Explorar histórias →</a>
       </aside>
     </section>
