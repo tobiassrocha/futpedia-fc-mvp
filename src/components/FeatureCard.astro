@@ -1,0 +1,9 @@
+---
+import { url } from '../lib/site';
+interface Props { title: string; eyebrow: string; excerpt?: string; href: string; visual?: string; large?: boolean; }
+const {title, eyebrow, excerpt, href, visual='stadium', large=false} = Astro.props;
+---
+<a class:list={['feature-card', visual, {large}]} href={url(href)}>
+  <span class="feature-scenery" aria-hidden="true"><span class="stadium-lines"></span></span>
+  <span class="feature-content"><span class="category">{eyebrow}</span><strong>{title}</strong>{excerpt && <span class="excerpt">{excerpt}</span>}</span>
+</a>
