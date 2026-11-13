@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
+
 export default defineConfig({
-  site: 'https://tobiassrocha.github.io',
-  base: '/futpedia-fc-mvp',
+  site: 'https://futpediafc.com.br',
+  base: '/',
   output: 'static',
   trailingSlash: 'always',
 });
