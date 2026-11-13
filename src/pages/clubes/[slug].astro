@@ -34,7 +34,7 @@ const sections = headings.filter((h) => h.depth === 2);
     <div class="container club-profile-top"><EditorialFactSheet club={club}/></div>
     <div class="container article-body-grid">
       <aside class="article-sidebar">
-        <p class="sidebar-title">NESTA HISTÓRIA</p>
+        <p class="sidebar-title">SUMÁRIO</p>
         <p class="club-location">{club.data.city}, Rio Grande do Sul</p>
         {sections.length > 0 && <nav class="article-toc" aria-label="Sumário">
           {sections.map((h) => <a href={'#' + h.slug}>{h.text}</a>)}
