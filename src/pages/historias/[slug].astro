@@ -1,46 +1,36 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import EditorialGallery from '../../components/EditorialGallery.astro';
+import RelatedEditorial from '../../components/RelatedEditorial.astro';
+import { getArchive, relatedEditorially } from '../../lib/archive';
 import { url } from '../../lib/site';
 import '../../styles/article.css';
-
 type Props = { article: CollectionEntry<'articles'> };
-
 export async function getStaticPaths() {
   const articles = await getCollection('articles');
   return articles.map((article) => ({ params: { slug: article.id }, props: { article } }));
 }
-
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
-const articleUrl = new URL(url('historias/' + article.id + '/'), Astro.site ?? Astro.url).toString();
+const { articles } = await getArchive();
+const related = relatedEditorially(article, articles);
 const date = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'long', timeZone: 'UTC' }).format(article.data.publishedAt);
-const related = (await getCollection('articles'))
-  .filter((item) => item.id !== article.id)
-  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
-  .slice(0, 3);
+const articleUrl = new URL(url('historias/' + article.id + '/'), Astro.site ?? Astro.url).toString();
+const sections = headings.filter((h) => h.depth === 2);
 ---
-<BaseLayout
-  title={article.data.title + ' | Futpedia FC'}
-  description={article.data.description}
-  type="article"
-  canonical={articleUrl}
->
+<BaseLayout title={article.data.title + ' | Futpedia FC'} description={article.data.description} type="article" canonical={articleUrl}>
   <article class="article-shell">
     <header class="article-heading container">
       <nav class="breadcrumbs" aria-label="Caminho de navegação">
-        <a href={url('')}>Início</a><span aria-hidden="true">/</span>
-        <a href={url('historias/')}>Histórias</a>
+        <a href={url('')}>Início</a><span aria-hidden="true">/</span><a href={url('historias/')}>Histórias</a>
       </nav>
       <p class="article-eyebrow">{article.data.eyebrow}</p>
-      <h1>{article.data.title}</h1>
-      <p class="article-deck">{article.data.description}</p>
+      <h1>{article.data.title}</h1><p class="article-deck">{article.data.description}</p>
       <div class="article-meta">
-        <span>{article.data.author}</span>
-        <span aria-hidden="true">·</span>
+        <span>{article.data.author}</span><span aria-hidden="true">·</span>
         <time datetime={article.data.publishedAt.toISOString()}>{date}</time>
-        <span aria-hidden="true">·</span>
-        <span>{article.data.readingMinutes} min de leitura</span>
+        <span aria-hidden="true">·</span><span>{article.data.readingMinutes} min de leitura</span>
       </div>
       {article.data.demo && <p class="demo-note"><strong>Conteúdo demonstrativo:</strong> esta publicação apresenta a experiência editorial do MVP.</p>}
     </header>
@@ -48,7 +38,7 @@ const related = (await getCollection('articles'))
       {article.data.cover ? (
         <figure class="article-cover">
           <img src={url(article.data.cover)} alt={article.data.coverAlt} width="1440" height="810" loading="eager" />
-          {article.data.coverCredit && <figcaption>{article.data.coverCredit}</figcaption>}
+          <figcaption>Foto: {article.data.coverCredit} · {article.data.coverLicense}</figcaption>
         </figure>
       ) : (
         <div class="article-cover-placeholder" role="img" aria-label="Ilustração abstrata de um gramado com arquibancadas">
@@ -59,33 +49,24 @@ const related = (await getCollection('articles'))
     <div class="container article-body-grid">
       <aside class="article-sidebar" aria-label="Nesta reportagem">
         <p class="sidebar-title">NESTA REPORTAGEM</p>
-        {headings.filter((heading) => heading.depth === 2).length > 0 && (
-          <nav class="article-toc" aria-label="Sumário do artigo">
-            {headings.filter((heading) => heading.depth === 2).map((heading) => <a href={'#' + heading.slug}>{heading.text}</a>)}
-          </nav>
-        )}
+        {sections.length > 0 && <nav class="article-toc" aria-label="Sumário do artigo">
+          {sections.map((h) => <a href={'#' + h.slug}>{h.text}</a>)}
+        </nav>}
       </aside>
       <div class="article-primary">
+        {sections.length > 0 && <details class="article-mobile-toc">
+          <summary>Ir para uma seção desta matéria</summary>
+          <nav aria-label="Sumário para celular">{sections.map((h) => <a href={'#' + h.slug}>{h.text}</a>)}</nav>
+        </details>}
         <div class="article-prose"><Content /></div>
-        {article.data.sources.length > 0 && (
-          <section class="article-references" aria-labelledby="sources-title">
-            <h2 id="sources-title">Fontes e referências</h2>
-            <p>Documentos consultados durante a apuração deste artigo.</p>
-            <ul>
-              {article.data.sources.map((source) => <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>{source.publisher && <span> — {source.publisher}</span>}</li>)}
-            </ul>
-          </section>
-        )}
+        <EditorialGallery images={article.data.gallery} />
+        {article.data.sources.length > 0 && <section class="article-references" aria-labelledby="sources-title">
+          <h2 id="sources-title">Fontes e referências</h2><p>Documentos consultados durante a apuração deste artigo.</p>
+          <ul>{article.data.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>{s.publisher && <span> — {s.publisher}</span>}</li>)}</ul>
+        </section>}
         <div class="article-back"><a href={url('historias/')}>← Voltar ao acervo de histórias</a></div>
       </div>
     </div>
   </article>
-  <section class="container related-section" aria-labelledby="related-heading">
-    <div class="section-heading"><h2 id="related-heading">Continue explorando</h2><a href={url('historias/')}>Ver todas →</a></div>
-    {related.length > 0 ? (
-      <div class="related-grid">{related.map((item) => <a class="related-item" href={url('historias/' + item.id + '/')}><span>{item.data.eyebrow}</span><strong>{item.data.title}</strong><small>{item.data.readingMinutes} min de leitura</small></a>)}</div>
-    ) : (
-      <p class="related-empty">Este é o primeiro conteúdo do acervo. Novas histórias serão adicionadas após pesquisa e verificação.</p>
-    )}
-  </section>
+  <RelatedEditorial articles={related} />
 </BaseLayout>

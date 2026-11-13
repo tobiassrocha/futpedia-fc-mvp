@@ -1,0 +1,20 @@
+---
+import { url } from '../lib/site';
+interface Props {
+  src: string;
+  alt: string;
+  credit: string;
+  license: string;
+  caption?: string;
+  eager?: boolean;
+}
+const { src, alt, credit, license, caption, eager = false } = Astro.props;
+const imageUrl = /^https?:\/\//.test(src) ? src : url(src);
+---
+<figure class="editorial-figure">
+  <img src={imageUrl} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+  <figcaption>
+    {caption && <span class="figure-caption">{caption} </span>}
+    <span class="figure-credit">Foto: {credit} · {license}</span>
+  </figcaption>
+</figure>

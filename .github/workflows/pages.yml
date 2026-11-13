@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Validate editorial media
+        run: node --test src/lib/remark-figures.test.mjs
       - run: npm install --no-audit --no-fund
       - run: npm run build
       - name: Upload site

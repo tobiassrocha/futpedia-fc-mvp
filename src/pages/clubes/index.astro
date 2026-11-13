@@ -1,4 +1,26 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getArchive } from '../../lib/archive';
+import { url } from '../../lib/site';
+import '../../styles/article.css';
+const { clubs } = await getArchive();
+clubs.sort((a, b) => a.data.name.localeCompare(b.data.name, 'pt-BR'));
 ---
-<BaseLayout title="Clubes | Futpedia FC"><section class="container inner-page"><p class="eyebrow">FUTEBOL DO RIO GRANDE DO SUL</p><h1>Clubes</h1><p>Um espaço para explorar os clubes que fazem a história do futebol gaúcho, da elite às divisões de acesso.</p></section></BaseLayout>
+<BaseLayout title="Clubes | Futpedia FC" description="Acervo histórico de clubes do futebol gaúcho, independente da divisão disputada em cada temporada.">
+  <section class="container collection-page">
+    <p class="eyebrow">ACERVO DO FUTEBOL GAÚCHO</p>
+    <h1>Clubes</h1>
+    <p class="collection-intro">A história de cada clube tem endereço permanente. Divisões mudam; a memória permanece.</p>
+    <div class="collection-grid">
+      {clubs.map((club) => <a class="collection-card" href={url('clubes/' + club.id + '/')}>
+        <div class="collection-card-art" aria-hidden="true"><span>FUTPEDIA FC</span></div>
+        <div class="collection-card-content">
+          <span class="collection-label">{club.data.city} · RS</span>
+          <h2>{club.data.name}</h2>
+          <p>{club.data.description}</p>
+          {club.data.demo && <span class="collection-meta">Perfil piloto · conteúdo em preparação</span>}
+        </div>
+      </a>)}
+    </div>
+  </section>
+</BaseLayout>
