@@ -7,10 +7,10 @@ O portal continua hospedado gratuitamente no GitHub Pages e publicado pelo GitHu
 ## Ordem segura de ativação
 
 1. **Antes de integrar esta PR**, abra o Registro.br e confirme que os nameservers do domínio utilizam o DNS do Registro.br. Caso use outro serviço, configure os registros no DNS autoritativo em uso.
-2. No editor avançado da zona DNS do Registro.br, crie os registros A abaixo para a raiz do domínio (campo nome vazio ou `@`, conforme o painel). Não inclua entradas A conflitantes.
-3. Crie um registro CNAME para `www` apontando para `tobiassrocha.github.io` (sem o nome do repositório).
-4. Aguarde a propagação e confira os apontamentos.
-5. Em GitHub → repositório → Settings → Pages → Custom domain, informe `futpediafc.com.br` e salve. A opção Source continua como **GitHub Actions**. O workflow de deploy **não depende de arquivo CNAME**.
+2. Em GitHub → repositório → Settings → Pages → Custom domain, informe `futpediafc.com.br` e salve **antes de apontar o DNS**, conforme a recomendação de segurança do GitHub. A opção Source continua como **GitHub Actions**. O workflow de deploy **não depende de arquivo CNAME**.
+3. No editor avançado da zona DNS do Registro.br, crie os registros A abaixo para a raiz do domínio (campo nome vazio ou `@`, conforme o painel). Não inclua entradas A conflitantes.
+4. Crie um registro CNAME para `www` apontando para `tobiassrocha.github.io` (sem o nome do repositório).
+5. Aguarde a propagação e confira os apontamentos.
 6. Integre esta PR após o DNS e a configuração do domínio no GitHub estarem prontos. O build passará a gerar rotas na raiz, não em `/futpedia-fc-mvp/`.
 7. Depois do deploy, confirme homepage e páginas internas em `https://futpediafc.com.br/`, configure **Enforce HTTPS** quando disponível e confira redirecionamento de `www` para o domínio canônico.
 8. Somente após a publicação estável, implemente Search Console, sitemap, analytics e divulgação pública.
