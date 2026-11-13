@@ -50,3 +50,14 @@ Não criar links que ainda não resolvem. A seção editorial `relatedArticles` 
 - Revisão humana de narrativa, informações e sensibilidade do episódio de 2009.
 - Checagem aprofundada por fonte independente dos relatos de 1950, 1956 e 1946 antes de tratá-los em artigos próprios.
 - Curadoria e autorização de fotografias: **o texto pode ser publicado sem fotos, mas não consideramos o padrão visual definitivo concluído até haver imagens verificadas**.
+
+## Revisão de experiência editorial — PR #6
+
+- **Links no corpo:** fontes externas removidas dos parágrafos; URLs bibliográficas permanecem no frontmatter e são exibidas exclusivamente em "Fontes e referências". Uma ligação editorial interna foi incluída somente para página já existente.
+- **Conexões internas futuras:** pauta dedicada para 1919, Bra-Pel, Bento Freitas, campanha de 1985 e excursão de 1956; inserir links apenas quando existirem.
+- **Ficha histórica:** fundação, cidade, estádio, título estadual e campanha nacional, distinguindo títulos de classificações.
+- **Fotografias:** infraestrutura para inserir imagens narrativas e galerias com legendas e créditos; nenhum arquivo reproduzido sem licença verificada. Inventário permanece pendente.
+- **Depoimentos e vídeo:** componentes opcionais introduzidos; não exibidos no Brasil porque ainda não foi validado depoimento literal ou vídeo apropriado.
+- **Navegação:** sumário lateral e versão recolhível no celular.
+- **Pesquisa:** clube, FGF, universidades e imprensa; múltiplos registros quando disponíveis.
+- **Revisão humana:** necessária sobretudo para o tratamento da tragédia de 2009.

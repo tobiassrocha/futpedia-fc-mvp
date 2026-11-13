@@ -2,6 +2,9 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import RelatedEditorial from '../../components/RelatedEditorial.astro';
+import EditorialFactSheet from '../../components/EditorialFactSheet.astro';
+import HistoricalQuote from '../../components/HistoricalQuote.astro';
+import HistoricalVideo from '../../components/HistoricalVideo.astro';
 import { getArchive } from '../../lib/archive';
 import { url } from '../../lib/site';
 import '../../styles/article.css';
@@ -15,6 +18,7 @@ const { Content, headings } = await render(club);
 const { articles } = await getArchive();
 const indexed = new Map(articles.map((item) => [item.id, item]));
 const related = club.data.relatedArticles.map((id) => indexed.get(id)!).filter(Boolean);
+const sections = headings.filter((h) => h.depth === 2);
 ---
 <BaseLayout title={club.data.name + ' | Futpedia FC'} description={club.data.description}>
   <article class="article-shell">
@@ -23,22 +27,33 @@ const related = club.data.relatedArticles.map((id) => indexed.get(id)!).filter(B
         <a href={url('')}>Início</a><span aria-hidden="true">/</span><a href={url('clubes/')}>Clubes</a>
       </nav>
       <p class="article-eyebrow">CLUBES DO RIO GRANDE DO SUL · {club.data.city}</p>
-      <h1>{club.data.name}</h1><p class="article-deck">{club.data.description}</p>
+      <h1>{club.data.name}</h1>
+      <p class="article-deck">{club.data.description}</p>
       {club.data.demo && <p class="demo-note"><strong>Perfil piloto.</strong> História em preparação; esta página não constitui uma reportagem histórica verificada.</p>}
     </header>
+    <div class="container club-profile-top"><EditorialFactSheet club={club}/></div>
     <div class="container article-body-grid">
       <aside class="article-sidebar">
-        <p class="sidebar-title">SOBRE ESTE CLUBE</p>
+        <p class="sidebar-title">NESTA HISTÓRIA</p>
         <p class="club-location">{club.data.city}, Rio Grande do Sul</p>
-        {headings.length > 0 && <nav class="article-toc" aria-label="Sumário">
-          {headings.filter((h) => h.depth === 2).map((h) => <a href={'#' + h.slug}>{h.text}</a>)}
+        {sections.length > 0 && <nav class="article-toc" aria-label="Sumário">
+          {sections.map((h) => <a href={'#' + h.slug}>{h.text}</a>)}
         </nav>}
       </aside>
       <div class="article-primary">
+        {sections.length > 0 && <details class="article-mobile-toc">
+          <summary>Ir para uma seção</summary>
+          <nav aria-label="Sumário para celular">{sections.map((h) => <a href={'#' + h.slug}>{h.text}</a>)}</nav>
+        </details>}
         <div class="article-prose"><Content /></div>
-        {club.data.sources.length > 0 && <section class="article-references">
-          <h2>Fontes e referências</h2>
-          <ul>{club.data.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a></li>)}</ul>
+        {club.data.featuredQuote && <HistoricalQuote {...club.data.featuredQuote} />}
+        {club.data.featuredVideo && <HistoricalVideo {...club.data.featuredVideo} />}
+        {club.data.sources.length > 0 && <section class="article-references" aria-labelledby="club-sources">
+          <h2 id="club-sources">Fontes e referências</h2>
+          <p>Fontes externas da apuração, reunidas aqui para consulta e verificação.</p>
+          <ul>{club.data.sources.map((s) => <li>
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>{s.publisher && <span> — {s.publisher}</span>}
+          </li>)}</ul>
         </section>}
         <div class="article-back"><a href={url('clubes/')}>← Ver todos os clubes</a></div>
       </div>

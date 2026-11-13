@@ -1,0 +1,8 @@
+---
+interface Props { text: string; speaker: string; sourceTitle: string; sourceUrl: string }
+const {text,speaker,sourceTitle,sourceUrl}=Astro.props;
+---
+<figure class="historical-quote">
+  <blockquote>“{text}”</blockquote>
+  <figcaption><strong>{speaker}</strong> · <a href={sourceUrl} target="_blank" rel="noopener noreferrer">Fonte da declaração: {sourceTitle}</a></figcaption>
+</figure>
