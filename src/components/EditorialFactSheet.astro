@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { club: CollectionEntry<'clubs'> }
+const { club } = Astro.props;
+const d = club.data;
+const date = d.founded ? new Intl.DateTimeFormat('pt-BR',{timeZone:'UTC'}).format(new Date(d.founded+'T00:00:00Z')) : undefined;
+---
+<section class="club-facts" aria-labelledby="club-facts-title">
+  <h2 id="club-facts-title">Ficha histórica</h2>
+  <dl class="club-facts-grid">
+    <div><dt>Cidade</dt><dd>{d.city}, RS</dd></div>
+    {date && <div><dt>Fundação</dt><dd>{date}</dd></div>}
+    {d.stadiumName && <div><dt>Estádio</dt><dd>{d.stadiumName}</dd></div>}
+  </dl>
+  {d.honors.length > 0 && <div class="club-facts-row"><h3>Conquistas e campanhas de destaque</h3><ul>{d.honors.map((x)=><li>{x}</li>)}</ul></div>}
+  {d.notableMoments.length > 0 && <div class="club-facts-row"><h3>Marcos da trajetória</h3><ul>{d.notableMoments.map((x)=><li>{x}</li>)}</ul></div>}
+</section>

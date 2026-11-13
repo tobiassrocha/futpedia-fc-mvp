@@ -1,0 +1,10 @@
+---
+interface Props { youtubeId: string; title: string; caption?: string }
+const {youtubeId,title,caption}=Astro.props;
+---
+<figure class="historical-video">
+  <div class="historical-video-frame">
+    <iframe src={'https://www.youtube-nocookie.com/embed/'+youtubeId} title={title} loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+  <figcaption>{caption || title}</figcaption>
+</figure>

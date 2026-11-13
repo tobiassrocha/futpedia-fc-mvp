@@ -60,10 +60,6 @@ const sections = headings.filter((h) => h.depth === 2);
         </details>}
         <div class="article-prose"><Content /></div>
         <EditorialGallery images={article.data.gallery} />
-        {article.data.sources.length > 0 && <section class="article-references" aria-labelledby="sources-title">
-          <h2 id="sources-title">Fontes e referências</h2><p>Documentos consultados durante a apuração deste artigo.</p>
-          <ul>{article.data.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>{s.publisher && <span> — {s.publisher}</span>}</li>)}</ul>
-        </section>}
         <div class="article-back"><a href={url('historias/')}>← Voltar ao acervo de histórias</a></div>
       </div>
     </div>
