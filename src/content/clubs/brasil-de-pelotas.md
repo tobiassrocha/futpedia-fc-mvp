@@ -120,6 +120,3 @@ O título da A2 não ficou em Pelotas. Em **1º de novembro de 2026**, após emp
 É uma diferença que importa: **o Brasil foi vice-campeão da Série A2 de 2026 e conquistou o acesso**, não o título daquela edição.
 
 Depois de mais de um século, a história do Xavante continua em aberto. Os episódios de 1919, 1985, 2009 e os retornos de diferentes épocas ajudam a explicar por que sua trajetória permanece relevante para além de Pelotas.
-
-
-A memória desses episódios também explica por que buscamos [preservar as histórias do futebol gaúcho](../../historias/por-que-preservar-a-memoria-do-futebol-gaucho/). As futuras reportagens sobre 1919, Bra-Pel, Bento Freitas e 1985 serão conectadas diretamente aos capítulos pertinentes quando estiverem publicadas.

@@ -48,13 +48,6 @@ const sections = headings.filter((h) => h.depth === 2);
         <div class="article-prose"><Content /></div>
         {club.data.featuredQuote && <HistoricalQuote {...club.data.featuredQuote} />}
         {club.data.featuredVideo && <HistoricalVideo {...club.data.featuredVideo} />}
-        {club.data.sources.length > 0 && <section class="article-references" aria-labelledby="club-sources">
-          <h2 id="club-sources">Fontes e referências</h2>
-          <p>Fontes externas da apuração, reunidas aqui para consulta e verificação.</p>
-          <ul>{club.data.sources.map((s) => <li>
-            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>{s.publisher && <span> — {s.publisher}</span>}
-          </li>)}</ul>
-        </section>}
         <div class="article-back"><a href={url('clubes/')}>← Ver todos os clubes</a></div>
       </div>
     </div>

@@ -83,3 +83,10 @@ Em artigo `/historias/slug/`, essa referência funciona no GitHub Pages e no fut
 - Cadastro dos 38 clubes e participações sazonais.
 - Domínio definitivo, em preparação na PR #4.
 - APIs de IA e automação editorial.
+
+## Fontes internas de produção × apresentação pública
+
+- Guardar os registros documentais em `sources` e em dossiês de pesquisa: são instrumentos da equipe editorial.
+- **Não exibir a lista bibliográfica no final das páginas de clubes ou reportagens.** Portal de futebol, não bibliografia acadêmica.
+- Links dentro das narrativas devem ampliar a exploração **dentro da Futpedia FC**, quando existirem artigos relevantes publicados. Não criar atalhos genéricos ou autolinks para preencher a exigência.
+- Créditos das fotografias, citações e materiais de terceiros permanecem visíveis conforme os respectivos direitos, independentemente da bibliografia privada.

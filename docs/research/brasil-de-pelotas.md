@@ -61,3 +61,7 @@ Não criar links que ainda não resolvem. A seção editorial `relatedArticles` 
 - **Navegação:** sumário lateral e versão recolhível no celular.
 - **Pesquisa:** clube, FGF, universidades e imprensa; múltiplos registros quando disponíveis.
 - **Revisão humana:** necessária sobretudo para o tratamento da tragédia de 2009.
+
+## Apresentação pública das fontes
+
+Os links bibliográficos e a matriz de verificação permanecem nos metadados e neste dossiê para a apuração, revisão e manutenção editorial. O portal **não exibe uma seção pública de "Fontes e referências"**: matérias contam histórias em linguagem jornalística, com links naturais apenas para outros conteúdos pertinentes da Futpedia FC. Fotografias, reproduções documentais e declarações continuam exigindo créditos/atribuições específicos quando aplicáveis. Não inserir links artificiais para páginas que não aprofundem o acontecimento.
