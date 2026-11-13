@@ -1,0 +1,9 @@
+---
+import EditorialFigure from './EditorialFigure.astro';
+interface Image { src: string; alt: string; credit: string; license: string }
+interface Props { images: Image[] }
+const { images } = Astro.props;
+---
+{images.length > 0 && <section class="editorial-gallery" aria-label="Galeria de fotografias da reportagem">
+  {images.map((image) => <EditorialFigure {...image} />)}
+</section>}

@@ -1,0 +1,48 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RelatedEditorial from '../../components/RelatedEditorial.astro';
+import { getArchive } from '../../lib/archive';
+import { url } from '../../lib/site';
+import '../../styles/article.css';
+type Props = { club: CollectionEntry<'clubs'> };
+export async function getStaticPaths() {
+  const clubs = await getCollection('clubs');
+  return clubs.map((club) => ({ params: { slug: club.id }, props: { club } }));
+}
+const { club } = Astro.props;
+const { Content, headings } = await render(club);
+const { articles } = await getArchive();
+const indexed = new Map(articles.map((item) => [item.id, item]));
+const related = club.data.relatedArticles.map((id) => indexed.get(id)!).filter(Boolean);
+---
+<BaseLayout title={club.data.name + ' | Futpedia FC'} description={club.data.description}>
+  <article class="article-shell">
+    <header class="article-heading container">
+      <nav class="breadcrumbs" aria-label="Caminho de navegação">
+        <a href={url('')}>Início</a><span aria-hidden="true">/</span><a href={url('clubes/')}>Clubes</a>
+      </nav>
+      <p class="article-eyebrow">CLUBES DO RIO GRANDE DO SUL · {club.data.city}</p>
+      <h1>{club.data.name}</h1><p class="article-deck">{club.data.description}</p>
+      {club.data.demo && <p class="demo-note"><strong>Perfil piloto.</strong> História em preparação; esta página não constitui uma reportagem histórica verificada.</p>}
+    </header>
+    <div class="container article-body-grid">
+      <aside class="article-sidebar">
+        <p class="sidebar-title">SOBRE ESTE CLUBE</p>
+        <p class="club-location">{club.data.city}, Rio Grande do Sul</p>
+        {headings.length > 0 && <nav class="article-toc" aria-label="Sumário">
+          {headings.filter((h) => h.depth === 2).map((h) => <a href={'#' + h.slug}>{h.text}</a>)}
+        </nav>}
+      </aside>
+      <div class="article-primary">
+        <div class="article-prose"><Content /></div>
+        {club.data.sources.length > 0 && <section class="article-references">
+          <h2>Fontes e referências</h2>
+          <ul>{club.data.sources.map((s) => <li><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a></li>)}</ul>
+        </section>}
+        <div class="article-back"><a href={url('clubes/')}>← Ver todos os clubes</a></div>
+      </div>
+    </div>
+  </article>
+  <RelatedEditorial articles={related} title="Histórias deste clube" />
+</BaseLayout>

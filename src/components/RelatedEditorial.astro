@@ -1,0 +1,17 @@
+---
+import { url } from '../lib/site';
+import type { Article } from '../lib/archive';
+interface Props { articles: Article[]; title?: string }
+const { articles, title = 'Continue explorando' } = Astro.props;
+---
+{articles.length > 0 && (
+<section class="container related-section" aria-label={title}>
+  <div class="section-heading"><h2>{title}</h2><a href={url('historias/')}>Ver acervo →</a></div>
+  <div class="related-grid">
+    {articles.map((item) => <a class="related-item" href={url('historias/' + item.id + '/')}>
+      <span>{item.data.eyebrow}</span><strong>{item.data.title}</strong>
+      <small>{item.data.readingMinutes} min de leitura</small>
+    </a>)}
+  </div>
+</section>
+)}
